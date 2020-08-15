@@ -1,4 +1,4 @@
-#!/usr/bin/python
+import numpy as np
 
 
 def outlierCleaner(predictions, ages, net_worths):
@@ -14,7 +14,17 @@ def outlierCleaner(predictions, ages, net_worths):
     cleaned_data = []
 
     ### your code goes here
-
+    ten_percent_of_data = int(len(ages) * 0.1)
     
-    return cleaned_data
+    for index in range(0, len(ages)):
+        data_tup = tuple(
+            (ages[index],
+            net_worths[index],
+            abs(net_worths[index] - predictions[index]))
+        )
 
+        cleaned_data.append(data_tup)
+    
+    cleaned_data = sorted(cleaned_data, key=lambda x: x[2])
+
+    return cleaned_data[ :-1 * ten_percent_of_data]
